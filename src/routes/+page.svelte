@@ -41,13 +41,43 @@
 	};
 
 	const submitForm = (e) => {
-		e.preventDefault();
-		validateForm();
+		e.preventDefault(); // Prevent the default form submission behavior
+		validateForm(); // Validate the form inputs
+
+		if (successMessage) {
+			// Reset the form to its initial state if there are no errors
+			form = {
+				firstName: '',
+				lastName: '',
+				mail: '',
+				message: '',
+				queryType: '',
+				consent: false
+			};
+
+			// Automatically hide the success message after a few seconds
+			setTimeout(() => {
+				successMessage = false;
+			}, 5000); // Adjust the delay as needed
+		}
 	};
 </script>
 
 <main class="font-karla text-dark-gray flex items-center justify-center bg-[#E1F1E7]">
-	<div class="mb-20 mt-20 w-full max-w-lg rounded-lg bg-white p-10 shadow-md">
+	<div class="relative mb-20 mt-20 w-full max-w-lg rounded-lg bg-white p-10 shadow-md">
+		{#if successMessage}
+			<div class="absolute inset-0 flex items-center justify-center rounded-lg bg-black/50">
+				<div class="w-96 rounded-md bg-[#2A4244] p-6 text-center text-white shadow-lg">
+					<span
+						class="mb-3 inline-block h-8 w-8 items-center justify-center rounded-full bg-green-500 text-xl font-bold text-white"
+						>✔</span
+					>
+					<h2 class="text-lg font-bold">Message Sent!</h2>
+					<p>Thanks for completing the form. We'll be in touch soon!</p>
+				</div>
+			</div>
+		{/if}
+
 		<form class="space-y-6" on:submit={submitForm}>
 			<h1 class="text-2xl font-bold">Contact Us</h1>
 
@@ -99,7 +129,7 @@
 						<div
 							class="flex h-5 w-5 items-center justify-center rounded-full border {form.queryType ===
 							'general'
-								? 'bg-green-500'
+								? 'bg-[#057C62]'
 								: ''}"
 						></div>
 						<span>General Enquiry</span>
@@ -110,7 +140,7 @@
 						<div
 							class="flex h-5 w-5 items-center justify-center rounded-full border {form.queryType ===
 							'support'
-								? 'bg-green-500'
+								? 'bg-[#057C62]'
 								: ''}"
 						></div>
 						<span>Support Request</span>
@@ -138,7 +168,7 @@
 				<input type="checkbox" bind:checked={form.consent} class="hidden" />
 				<div
 					class="flex h-5 w-5 items-center justify-center rounded-full border {form.consent
-						? 'bg-green-500'
+						? 'bg-[#057C62]'
 						: ''}"
 				></div>
 				<span>I consent to being contacted by the team <span class="text-green-500">*</span></span>
@@ -150,17 +180,10 @@
 			<!-- Submit Button -->
 			<button
 				type="submit"
-				class="w-full rounded-md bg-green-500 py-2 text-white transition hover:bg-green-600"
+				class="w-full rounded-md bg-[#0C7D69] py-2 text-white transition hover:bg-green-600"
 			>
 				Submit
 			</button>
-
-			{#if successMessage}
-				<div class="bg-dark-gray rounded-md p-4 text-white">
-					<h2 class="font-bold">Message Sent!</h2>
-					<p>Thanks for completing the form. We'll be in touch soon!</p>
-				</div>
-			{/if}
 		</form>
 	</div>
 </main>
@@ -168,5 +191,13 @@
 <style>
 	.error {
 		border-color: red;
+	}
+
+	.absolute {
+		z-index: 50;
+	}
+
+	.bg-black\/50 {
+		background-color: rgba(0, 0, 0, 0.5);
 	}
 </style>
