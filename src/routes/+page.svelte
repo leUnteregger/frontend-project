@@ -41,11 +41,10 @@
 	};
 
 	const submitForm = (e) => {
-		e.preventDefault(); // Prevent the default form submission behavior
-		validateForm(); // Validate the form inputs
+		e.preventDefault();
+		validateForm();
 
 		if (successMessage) {
-			// Reset the form to its initial state if there are no errors
 			form = {
 				firstName: '',
 				lastName: '',
@@ -55,10 +54,9 @@
 				consent: false
 			};
 
-			// Automatically hide the success message after a few seconds
 			setTimeout(() => {
 				successMessage = false;
-			}, 5000); // Adjust the delay as needed
+			}, 5000);
 		}
 	};
 </script>
@@ -111,7 +109,7 @@
 			<label class="flex flex-col">
 				<span class="mb-2">Email Address <span class="text-green-500">*</span></span>
 				<input
-					type="mail"
+					type="text"
 					bind:value={form.mail}
 					class="rounded-md border p-2 {errors.mail ? 'error' : ''}"
 				/>
